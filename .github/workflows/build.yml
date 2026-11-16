@@ -14,10 +14,14 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 8.1.1
-      - name: Unpack project if it was uploaded as a zip
+      - name: Unpack project if uploaded as zip
         run: |
-          if [ -f goatstalker-mod.zip ]; then
-            unzip -q -o goatstalker-mod.zip
+          for z in *.zip; do
+            if [ -f "$z" ]; then
+              unzip -q -o "$z"
+            fi
+          done
+          if [ -d "goatstalker" ] && [ -f "goatstalker/build.gradle" ]; then
             cp -a goatstalker/. .
           fi
       - name: Build
